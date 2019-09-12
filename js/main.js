@@ -1,193 +1,145 @@
-(function($) {
+ AOS.init({
+ 	duration: 800,
+ 	easing: 'slide'
+ });
 
-	'use strict';
+$(document).ready(function($) {
 
-	// bootstrap dropdown hover
+	"use strict";
 
-  // loader
-  var loader = function() {
-    setTimeout(function() { 
-      if($('#loader').length > 0) {
-        $('#loader').removeClass('show');
-      }
-    }, 1);
-  };
-  loader();
+	$(window).stellar({
+    responsive: false,
+    parallaxBackgrounds: true,
+    parallaxElements: true,
+    horizontalScrolling: false,
+    hideDistantElements: false,
+    scrollProperty: 'scroll'
+  });
 
+	// Scrollax
+  $.Scrollax();
+
+
+	// loader
+	var loader = function() {
+		setTimeout(function() { 
+			if($('#ftco-loader').length > 0) {
+				$('#ftco-loader').removeClass('show');
+			}
+		}, 1);
+	};
+	loader();
+
+	var carousel = function() {
+		$('.home-slider').owlCarousel({
+	    loop:true,
+	    autoplay: true,
+	    margin:0,
+	    animateOut: 'fadeOut',
+	    animateIn: 'fadeIn',
+	    nav:false,
+	    dots: false,
+	    autoplayHoverPause: false,
+	    items: 1,
+	    navText : ["<span class='ion-md-arrow-back'></span>","<span class='ion-chevron-right'></span>"],
+	    responsive:{
+	      0:{
+	        items:1,
+	        nav:false
+	      },
+	      600:{
+	        items:1,
+	        nav:false
+	      },
+	      1000:{
+	        items:1,
+	        nav:false
+	      }
+	    }
+	   });
+	};
+	carousel();
+
+	var fullHeight = function() {
+
+		$('.js-fullheight').css('height', $(window).height());
+		$(window).resize(function(){
+			$('.js-fullheight').css('height', $(window).height());
+		});
+
+	};
+	fullHeight();
+
+	var burgerMenu = function() {
+
+		$('.js-colorlib-nav-toggle').on('click', function(event) {
+			event.preventDefault();
+			var $this = $(this);
+			if( $('body').hasClass('menu-show') ) {
+				$('body').removeClass('menu-show');
+				$('#colorlib-main-nav > .js-colorlib-nav-toggle').removeClass('show');
+			} else {
+				$('body').addClass('menu-show');
+				setTimeout(function(){
+					$('#colorlib-main-nav > .js-colorlib-nav-toggle').addClass('show');
+				}, 900);
+			}
+		})
+	};
+	burgerMenu();
 	
-	$('nav .dropdown').hover(function(){
-		var $this = $(this);
-		$this.addClass('show');
-		$this.find('> a').attr('aria-expanded', true);
-		$this.find('.dropdown-menu').addClass('show');
-	}, function(){
-		var $this = $(this);
-			$this.removeClass('show');
-			$this.find('> a').attr('aria-expanded', false);
-			$this.find('.dropdown-menu').removeClass('show');
-	});
+	var counter = function() {
+		
+		$('#section-counter').waypoint( function( direction ) {
 
-  $('.navbar .dropdown > a').click(function(){
-    location.href = this.href;
-  });
+			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
 
-	$('#dropdown04').on('show.bs.dropdown', function () {
-	  console.log('show');
-  });
-  
-  
-	// home slider
-	$('.home-slider').owlCarousel({
-    loop:true,
-    autoplay: true,
-    margin:0,
-    animateOut: 'fadeOut',
-    animateIn: 'fadeIn',
-    nav:true,
-    autoplayHoverPause: true,
-    items: 1,
-    dragTouch: false,
-    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
-    responsive:{
-      0:{
-        items:1,
-        nav:false
-      },
-      600:{
-        items:1,
-        nav:false
-      },
-      1000:{
-        items:1,
-        nav:true
-      }
-    }
-	});
+				var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
+				$('.number').each(function(){
+					var $this = $(this),
+						num = $this.data('number');
+						console.log(num);
+					$this.animateNumber(
+					  {
+					    number: num,
+					    numberStep: comma_separator_number_step
+					  }, 7000
+					);
+				});
+				
+			}
 
-  $('.nonloop-block-11').owlCarousel({
-      center: false,
-      items: 1,
-      loop: true,
-      autoplay: true,
-      stagePadding: 20,
-      margin:50,
-      nav: true,
-      smartSpeed: 1000,
-      navText: ['<span class="ion-chevron-left">', '<span class="ion-chevron-right">'],
-      responsive:{
-        600:{
-          stagePadding: 20,
-          items:1
-        },
-        800:{
-          stagePadding: 20,
-          items:2
-        },
-        1000:{
-          // stagePadding: 200,
-          items:2
-        }
-      }
-    });
+		} , { offset: '95%' } );
 
-	// owl carousel
-	var majorCarousel = $('.js-carousel-1');
-	majorCarousel.owlCarousel({
-    loop:true,
-    autoplay: true,
-    stagePadding: 7,
-    margin: 20,
-    animateOut: 'fadeOut',
-    animateIn: 'fadeIn',
-    nav: true,
-    autoplayHoverPause: true,
-    items: 3,
-    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
-    responsive:{
-      0:{
-        items:1,
-        nav:false
-      },
-      600:{
-        items:2,
-        nav:false
-      },
-      1000:{
-        items:3,
-        nav:true,
-        loop:false
-      }
-  	}
-	});
-
-	// owl carousel
-	var major2Carousel = $('.js-carousel-2');
-	major2Carousel.owlCarousel({
-    loop:true,
-    autoplay: true,
-    stagePadding: 7,
-    margin: 20,
-    animateOut: 'fadeOut',
-    animateIn: 'fadeIn',
-    nav: true,
-    autoplayHoverPause: true,
-    items: 4,
-    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
-    responsive:{
-      0:{
-        items:1,
-        nav:false
-      },
-      600:{
-        items:3,
-        nav:false
-      },
-      1000:{
-        items:4,
-        nav:true,
-        loop:false
-      }
-  	}
-	});
-
-  var siteStellar = function () {
-    $(window).stellar({
-      responsive: false,
-      parallaxBackgrounds: true,
-      parallaxElements: true,
-      horizontalScrolling: false,
-      hideDistantElements: false,
-      scrollProperty: 'scroll'
-    });
-  };
-  siteStellar();
+	}
+	counter();
 
 	var contentWayPoint = function() {
 		var i = 0;
-		$('.element-animate').waypoint( function( direction ) {
+		$('.ftco-animate').waypoint( function( direction ) {
 
-			if( direction === 'down' && !$(this.element).hasClass('element-animated') ) {
+			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
 				
 				i++;
 
 				$(this.element).addClass('item-animate');
 				setTimeout(function(){
 
-					$('body .element-animate.item-animate').each(function(k){
+					$('body .ftco-animate.item-animate').each(function(k){
 						var el = $(this);
 						setTimeout( function () {
 							var effect = el.data('animate-effect');
 							if ( effect === 'fadeIn') {
-								el.addClass('fadeIn element-animated');
+								el.addClass('fadeIn ftco-animated');
 							} else if ( effect === 'fadeInLeft') {
-								el.addClass('fadeInLeft element-animated');
+								el.addClass('fadeInLeft ftco-animated');
 							} else if ( effect === 'fadeInRight') {
-								el.addClass('fadeInRight element-animated');
+								el.addClass('fadeInRight ftco-animated');
 							} else {
-								el.addClass('fadeInUp element-animated');
+								el.addClass('fadeInUp ftco-animated');
 							}
 							el.removeClass('item-animate');
-						},  k * 100);
+						},  k * 50, 'easeInOutExpo' );
 					});
 					
 				}, 100);
@@ -198,19 +150,57 @@
 	};
 	contentWayPoint();
 
-  var slideImage = function() {
-    $(".slide-image").each(function () {
-      var bg = $(this).data("bg");
-      var pos = $(this).data("kenburn-start");
 
-      $(this).css({
-        "background-image": "url(" + bg + ")",
-        "transform-origin": pos
-      });
-    });
-  };
-  slideImage();
-  
-  
+	// magnific popup
+	$('.image-popup').magnificPopup({
+    type: 'image',
+    closeOnContentClick: true,
+    closeBtnInside: false,
+    fixedContentPos: true,
+    mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+     gallery: {
+      enabled: true,
+      navigateByImgClick: true,
+      preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+    },
+    image: {
+      verticalFit: true
+    },
+    zoom: {
+      enabled: true,
+      duration: 300 // don't foget to change the duration also in CSS
+    }
+  });
 
-})(jQuery);
+  $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+    disableOn: 700,
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+
+    fixedContentPos: false
+  });
+
+   
+   $('#appointment_date').datepicker({
+	  'format': 'm/d/yyyy',
+	  'autoclose': true
+	});
+	$('#appointment_time').timepicker();
+
+	var pageProgress = function() {
+		$(window).scroll(function() {
+	    var wintop = $(window).scrollTop(), docheight = $('.page').height(), winheight = $(window).height();
+	    // console.log(wintop);
+	    var totalScroll = (wintop/(docheight-winheight))*100;
+	    // console.log("total scroll" + totalScroll);
+	    $(".KW_progressBar").css("width",totalScroll+"%");
+	  });
+
+	};
+	pageProgress();
+
+
+});
+
